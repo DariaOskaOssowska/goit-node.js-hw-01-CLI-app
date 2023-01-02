@@ -1,11 +1,26 @@
 const fs = require('fs').promises
 const path = require('path')
+const { nanoid } = require('nanoid')
+require('colors')
+
 
 const contactsPath = path.join(__dirname, 'db', 'contacts.json')
 
 // TODO: udokumentuj każdą funkcję
-const listContacts = () => {
-	fs.readFile(contactsPath).then(data => console.log(data.toString())).catch((err) => console.log(err.message))
+const listContacts = async () => {
+		const contacts = await fs.readdir(__dirname)
+		const filesStats = await Promise.all(
+			files.map(async filename => {
+				const stats = await fs.stat(filename)
+				return {
+					name: filename,
+					size: stats.size,
+					date: stats.mtime,
+					isFolder: stats.isDirectory(),
+				}
+			})
+		)
+		console.log(filesStats)
 }
 
 function getContactById(contactId) {
